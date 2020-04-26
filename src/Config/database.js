@@ -4,7 +4,7 @@ const { resolve } = require('path');
 const config = {
   development: {
     dialect: 'sqlite',
-    storage: resolve(__dirname, '..', 'Database', 'database.sqlite'),
+    storage: resolve(__dirname, '..', 'Database', 'devPublicDB.sqlite'),
   },
   production: {
     dialect: 'postgres',
