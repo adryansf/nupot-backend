@@ -3,12 +3,7 @@ const { resolve } = require('path');
 const config = {
   development: {
     dialect: 'sqlite',
-    storage: resolve(__dirname, '..', 'Database', 'database.sqlite'),
-    define: {
-      timestamps: true,
-      underscored: true,
-      underscoredAll: true,
-    },
+    storage: resolve(__dirname, '..', 'Database', 'devPublicDB.sqlite'),
   },
   production: {
     dialect: 'postgres',
