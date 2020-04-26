@@ -1,5 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+
+const { APP_SECRET } = process.env;
 
 class User extends Model {
   static init(sequelize) {
@@ -30,6 +33,11 @@ class User extends Model {
 
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
+  }
+
+  generateToken() {
+    const payload = { aud: this.id, roles: this.roles };
+    return jwt.sign(payload, APP_SECRET, { expiresIn: JWT_LIFESPAN });
   }
 }
 
