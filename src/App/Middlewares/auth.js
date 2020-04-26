@@ -10,7 +10,7 @@ export default async (req, res, next) => {
     return next();
   }
 
-  const [bearer, token] = authHeader.split(' ');
+  const [bearer, token] = authorization.split(' ');
 
   if (bearer !== 'Bearer') {
     return res.status(401).json({ error: 'Token badly formatted.' });

@@ -4,6 +4,11 @@ const config = {
   development: {
     dialect: 'sqlite',
     storage: resolve(__dirname, '..', 'Database', 'database.sqlite'),
+    define: {
+      timestamps: true,
+      underscored: true,
+      underscoredAll: true,
+    },
   },
   production: {
     dialect: 'postgres',

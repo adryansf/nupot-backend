@@ -6,12 +6,12 @@ export default async (req, res, next) => {
       name: Yup.string(),
       email: Yup.string().email(),
       phone: Yup.string(),
-      oldPassword: Yup.string().min(6),
-      password: Yup.string()
+      oldPassword: Yup.string()
         .min(6)
-        .when('oldPassword', (oldPassword, field) =>
+        .when('password', (oldPassword, field) =>
           oldPassword ? field.required() : field
         ),
+      password: Yup.string().min(6),
       confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
       ),

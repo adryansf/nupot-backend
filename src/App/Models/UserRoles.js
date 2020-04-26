@@ -1,5 +1,4 @@
 import Sequelize, { Model } from 'sequelize';
-import bcrypt from 'bcryptjs';
 
 class UserRoles extends Model {
   static init(sequelize) {
@@ -22,4 +21,4 @@ class UserRoles extends Model {
   }
 }
 
-export default User;
+export default UserRoles;

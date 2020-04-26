@@ -1,5 +1,8 @@
 import Sequelize, { Model } from 'sequelize';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+
+const { APP_SECRET, JWT_LIFESPAN } = process.env;
 
 class User extends Model {
   static init(sequelize) {
@@ -26,10 +29,16 @@ class User extends Model {
 
   static associate(models) {
     this.hasOne(models.Provider, { foreignKey: 'user_id', as: 'provider' });
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 
   checkPassword(password) {
-    return bcrypt.compare(password);
+    return bcrypt.compare(password, this.password);
+  }
+
+  generateToken() {
+    const payload = { aud: this.id, roles: this.roles };
+    return jwt.sign(payload, APP_SECRET, { expiresIn: JWT_LIFESPAN });
   }
 }
 

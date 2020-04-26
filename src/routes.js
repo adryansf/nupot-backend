@@ -22,6 +22,6 @@ routes.post('/sessions', validationSession, SessionController.store);
 
 // User Routes
 routes.post('/users', validationUserStore, UserController.store);
-routes.post('/users/:id', validationUserUpdate, UserController.update);
+routes.put('/users', validationUserUpdate, UserController.update);
 
 export default routes;

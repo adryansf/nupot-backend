@@ -1,12 +1,10 @@
-import generateToken from '../Libs/generateToken';
-
 import User from '../Models/User';
 
 class SessionController {
   async store(req, res) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -18,7 +16,7 @@ class SessionController {
 
     user.password = undefined;
 
-    const token = generateToken(user._id);
+    const token = user.generateToken();
 
     return res.json({ user, token });
   }
