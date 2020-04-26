@@ -1,7 +1,6 @@
-import bcrypt from 'bcryptjs';
 import generateToken from '../Libs/generateToken';
 
-import User from '../Schemas/User';
+import User from '../Models/User';
 
 class SessionController {
   async store(req, res) {
@@ -13,7 +12,7 @@ class SessionController {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (!(await bcrypt.compare(password, user.password))) {
+    if (!(await user.checkPassword(password))) {
       return res.status(400).json({ error: 'Invalid password' });
     }
 

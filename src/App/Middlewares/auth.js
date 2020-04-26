@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
-const SECRET = process.env.SECRET
+const SECRET = process.env.APP_SECRET;
 
-export default (req, res, next) => {
-  const { authorization } = req.headers
+export default async (req, res, next) => {
+  const { authorization } = req.headers;
   if (!authorization) {
-    req.auth = false
+    req.auth = false;
     return next();
   }
 
@@ -17,10 +17,10 @@ export default (req, res, next) => {
   }
 
   try {
-    const payload = await promisify(jwt.verify)(token, SECRET)
-    req.auth = payload
-    return next()
+    const payload = await promisify(jwt.verify)(token, SECRET);
+    req.auth = payload;
+    return next();
   } catch (error) {
     return res.status(401).json({ error: 'Token invalid.' });
   }
-}
+};
