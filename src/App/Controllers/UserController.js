@@ -3,9 +3,12 @@ import File from '../Models/File';
 
 class UserController {
   async store(req, res) {
-    const user = await User.create(req.body);
-
-    return res.json(user);
+    try {
+      const user = await User.create(req.body);
+      return res.json(user);
+    } catch (error) {
+      return res.json(error);
+    }
   }
 
   async update(req, res) {
