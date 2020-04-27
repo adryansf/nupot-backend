@@ -4,7 +4,8 @@ class Kitchen extends Model {
   static init(sequelize) {
     super.init(
       {
-        location: Sequelize.GEOMETRY('POINT'),
+        latitude: Sequelize.FLOAT,
+        longitude: Sequelize.FLOAT,
         legal_id: Sequelize.STRING,
       },
       {
