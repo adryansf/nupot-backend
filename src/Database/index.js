@@ -18,7 +18,14 @@ class Database {
   }
 
   init() {
-    this.connection = new Sequelize(databaseConfig);
+    this.connection = new Sequelize({
+      ...databaseConfig,
+      define: {
+        timestamps: true,
+        underscored: true,
+        underscoredAll: true,
+      },
+    });
 
     models
       .map(model => model.init(this.connection))
