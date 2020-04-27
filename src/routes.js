@@ -11,6 +11,7 @@ import validationSession from './App/Validators/SessionStore';
 import validationUserStore from './App/Validators/UserStore';
 import validationUserUpdate from './App/Validators/UserUpdate';
 import validationKitchenStore from './App/Validators/KitchenStore';
+import validationKitchenUpdate from './App/Validators/KitchenUpdate';
 
 // Controllers
 import SessionController from './App/Controllers/SessionController';
@@ -35,18 +36,18 @@ const todo = (req, res) => res.sendStatus(501); // Not implemented
 routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
 
 // Kitchens
-routes.get('/kitchens', todo); // Listar as cozinhas por ordem de proximidade
+routes.get('/kitchens', KitchenController.index); // Listar as cozinhas por ordem de proximidade
 routes.post(
   '/kitchens',
   allow('user'),
   validationKitchenStore,
   KitchenController.store
 );
-routes.put('/kitchens', todo); // Atualizar uma cozinha (nome, endereço etc.)- apenas usuários autenticados
+routes.put('/kitchens', validationKitchenUpdate, KitchenController.update); // Atualizar uma cozinha (nome, endereço etc.)- apenas usuários autenticados
 
 // Dishes
 routes.get('/dishes', todo); // Se o usuário estiver autenticado e possuir um perfil nutricional, listar apenas os pratos recomendados. Caso não, listar todos os pratos. Caso haja query params, retornar com filtros: /dishes?kitchen=1 deve retornar somente os pratos da cozinha com id 1 enquanto /dishes deve retornar todos os pratos
-routes.post('/dishes', allow('cooker'), todo);
+routes.post('/dishes', allow('kitchen'), todo);
 routes.put('/dishes/:dishId', todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha (role cooker)
 routes.delete('/dishes/:dishId', todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha (role cooker)
 
