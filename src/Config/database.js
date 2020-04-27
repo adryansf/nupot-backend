@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 
+const { NODE_ENV = 'development' } = process.env;
 const config = {
   development: {
     dialect: 'sqlite',
@@ -11,12 +12,7 @@ const config = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    define: {
-      timestamps: true,
-      underscored: true,
-      underscoredAll: true,
-    },
   },
 };
 
-module.exports = process.env.NODE_ENV ? config.development : config.production;
+module.exports = config[NODE_ENV];
