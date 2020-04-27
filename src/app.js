@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import { resolve } from 'path';
 
 // Routes
 import routes from './routes';
@@ -23,6 +24,10 @@ class App {
     this.server.use(helmet());
     this.server.use(express.json());
     this.server.use(auth);
+    this.server.use(
+      '/files',
+      express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+    );
   }
 
   routes() {

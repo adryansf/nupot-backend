@@ -18,18 +18,30 @@ import SessionController from './App/Controllers/SessionController';
 import UserController from './App/Controllers/UserController';
 import KitchenController from './App/Controllers/KitchenController';
 import DishController from './App/Controllers/DishController';
+import AvatarController from './App/Controllers/AvatarController';
 
 const routes = new Router();
-const multer = multer(multerConfig);
-
-routes.get('/', (req, res) => res.json({ message: 'Hello World' }));
+const upload = multer(multerConfig);
 
 // Session Route
 routes.post('/sessions', validationSession, SessionController.store);
 
 // User Routes
 routes.post('/users', validationUserStore, UserController.store);
-routes.put('/users', allow(), validationUserUpdate, UserController.update);
+routes.put(
+  '/users',
+  allow('user'),
+  validationUserUpdate,
+  UserController.update
+);
+
+// Files Uplaod
+routes.post(
+  '/avatars',
+  allow('user'),
+  upload.single('file'),
+  AvatarController.store
+);
 
 // In development
 const todo = (req, res) => res.sendStatus(501); // Not implemented
