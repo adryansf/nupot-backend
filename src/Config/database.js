@@ -1,6 +1,13 @@
 const { resolve } = require('path');
 
-const { NODE_ENV = 'development' } = process.env;
+const {
+  NODE_ENV = 'development',
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD = null,
+  DB_NAME,
+} = process.env;
+
 const config = {
   development: {
     dialect: 'sqlite',
@@ -8,10 +15,10 @@ const config = {
   },
   production: {
     dialect: 'postgres',
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD || null,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    username: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    host: DB_HOST,
   },
 };
 
