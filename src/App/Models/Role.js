@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Roles extends Model {
+class Role extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -16,4 +16,4 @@ class Roles extends Model {
   static associate(models) {}
 }
 
-export default Roles;
+export default Role;

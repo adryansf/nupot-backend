@@ -28,7 +28,7 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.hasOne(models.Provider, { foreignKey: 'user_id', as: 'provider' });
+    this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'owner' });
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 
