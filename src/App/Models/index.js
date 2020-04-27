@@ -1,4 +1,3 @@
-// TODO: transform this in a function
 import fs from 'fs';
 import path from 'path';
 
