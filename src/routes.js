@@ -10,10 +10,12 @@ import allow from './App/Middlewares/permission';
 import validationSession from './App/Validators/SessionStore';
 import validationUserStore from './App/Validators/UserStore';
 import validationUserUpdate from './App/Validators/UserUpdate';
+import validationKitchenStore from './App/Validators/KitchenStore';
 
 // Controllers
 import SessionController from './App/Controllers/SessionController';
 import UserController from './App/Controllers/UserController';
+import KitchenController from './App/Controllers/KitchenController';
 
 const routes = new Router();
 const multer = multer(multerConfig);
@@ -34,7 +36,12 @@ routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuá
 
 // Kitchens
 routes.get('/kitchens', todo); // Listar as cozinhas por ordem de proximidade
-routes.post('/kitchens', todo); // Criar uma cozinha - permitido apenas para usuários autenticados - deve receber a role cooker
+routes.post(
+  '/kitchens',
+  allow('user'),
+  validationKitchenStore,
+  KitchenController.store
+);
 routes.put('/kitchens', todo); // Atualizar uma cozinha (nome, endereço etc.)- apenas usuários autenticados
 
 // Dishes

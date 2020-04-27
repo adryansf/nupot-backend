@@ -28,6 +28,11 @@ class User extends Model {
   }
 
   static associate(models) {
+    this.belongsToMany(models.Role, {
+      hooks: true,
+      through: 'user_roles',
+      as: 'roles',
+    });
     this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'owner' });
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
@@ -37,7 +42,7 @@ class User extends Model {
   }
 
   generateToken() {
-    const payload = { aud: this.id, roles: this.roles };
+    const payload = { aud: this.id, roles: this.roles.map(role => role.name) };
     return jwt.sign(payload, APP_SECRET, { expiresIn: JWT_LIFESPAN });
   }
 }

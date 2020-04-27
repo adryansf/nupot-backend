@@ -1,10 +1,26 @@
 import User from '../Models/User';
-import File from '../Models/File';
+import Role from '../Models/Role';
+import UserRole from '../Models/UserRole';
+
+// Services
+import UserUpdateService from '../Services/UserUpdateService';
 
 class UserController {
   async store(req, res) {
     try {
       const user = await User.create(req.body);
+
+      const role = await Role.findOne({ where: { name: 'user' } });
+
+      try {
+        await UserRole.create({
+          user_id: user.id,
+          role_id: role.id,
+        });
+      } catch (error) {
+        return res.status(500).json(error);
+      }
+
       return res.json(user);
     } catch (error) {
       return res.json(error);
@@ -12,43 +28,15 @@ class UserController {
   }
 
   async update(req, res) {
-    const { email, oldPassword } = req.body;
+    const data = req.body;
     const userId = req.auth.aud;
 
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found' });
+    try {
+      const user = await UserUpdateService.run({ data, userId });
+      return res.json(user);
+    } catch ({ status = 500, error }) {
+      return res.status(status).json(error);
     }
-
-    if (email !== user.email) {
-      const userExists = await User.findOne({
-        where: { email: req.body.email },
-      });
-
-      if (userExists) {
-        return res.status(400).json({ error: 'User already exists.' });
-      }
-    }
-
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'Password does not match.' });
-    }
-
-    await user.update(req.body);
-
-    const newUser = await User.findByPk(userId, {
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
-        },
-      ],
-      attributes: { exclude: ['password', 'avatar_id'] },
-    });
-
-    return res.json(newUser);
   }
 }
 

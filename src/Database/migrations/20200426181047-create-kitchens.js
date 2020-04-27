@@ -16,8 +16,12 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      location: {
-        type: Sequelize.GEOMETRY('POINT'),
+      latitude: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      longitude: {
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       legal_id: {

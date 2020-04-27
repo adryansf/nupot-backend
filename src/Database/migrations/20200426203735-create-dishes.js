@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      provider_id: {
+      kitchen_id: {
         type: Sequelize.INTEGER,
         references: { model: 'kitchens', key: 'id' },
         onUpdate: 'CASCADE',
