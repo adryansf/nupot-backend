@@ -3,6 +3,9 @@ import multer from 'multer';
 
 import multerConfig from './Config/multer';
 
+// Middlewares
+import allow from './App/Middlewares/permission';
+
 // Validators
 import validationSession from './App/Validators/SessionStore';
 import validationUserStore from './App/Validators/UserStore';
@@ -22,6 +25,6 @@ routes.post('/sessions', validationSession, SessionController.store);
 
 // User Routes
 routes.post('/users', validationUserStore, UserController.store);
-routes.put('/users', validationUserUpdate, UserController.update);
+routes.put('/users', allow(), validationUserUpdate, UserController.update);
 
 export default routes;
