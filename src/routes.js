@@ -47,7 +47,7 @@ routes.post(
 routes.put('/kitchens', validationKitchenUpdate, KitchenController.update); // Atualizar uma cozinha (nome, endereço etc.)- apenas usuários autenticados
 
 // Dishes
-routes.get('/dishes', todo); // Se o usuário estiver autenticado e possuir um perfil nutricional, listar apenas os pratos recomendados. Caso não, listar todos os pratos. Caso haja query params, retornar com filtros: /dishes?kitchen=1 deve retornar somente os pratos da cozinha com id 1 enquanto /dishes deve retornar todos os pratos
+routes.get('/dishes', DishController.index); // Se o usuário estiver autenticado e possuir um perfil nutricional, listar apenas os pratos recomendados. Caso não, listar todos os pratos. Caso haja query params, retornar com filtros: /dishes?kitchen=1 deve retornar somente os pratos da cozinha com id 1 enquanto /dishes deve retornar todos os pratos
 routes.post('/dishes', allow('kitchen'), DishController.store);
 routes.put('/dishes/:dishId', todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha (role cooker)
 routes.delete('/dishes/:dishId', todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha (role cooker)
