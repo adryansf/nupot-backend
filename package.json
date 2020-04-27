@@ -17,7 +17,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "db:reset": "sequelize db:migrate:undo:all && sequelize db:migrate"
+    "db:reset": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
   },
   "keywords": [],
   "license": "ISC",
