@@ -17,6 +17,7 @@ import validationKitchenUpdate from './App/Validators/KitchenUpdate';
 import SessionController from './App/Controllers/SessionController';
 import UserController from './App/Controllers/UserController';
 import KitchenController from './App/Controllers/KitchenController';
+import DishController from './App/Controllers/DishController';
 
 const routes = new Router();
 const multer = multer(multerConfig);
@@ -47,7 +48,7 @@ routes.put('/kitchens', validationKitchenUpdate, KitchenController.update); // A
 
 // Dishes
 routes.get('/dishes', todo); // Se o usuário estiver autenticado e possuir um perfil nutricional, listar apenas os pratos recomendados. Caso não, listar todos os pratos. Caso haja query params, retornar com filtros: /dishes?kitchen=1 deve retornar somente os pratos da cozinha com id 1 enquanto /dishes deve retornar todos os pratos
-routes.post('/dishes', allow('kitchen'), todo);
+routes.post('/dishes', allow('kitchen'), DishController.store);
 routes.put('/dishes/:dishId', todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha (role cooker)
 routes.delete('/dishes/:dishId', todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha (role cooker)
 

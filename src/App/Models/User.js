@@ -33,7 +33,7 @@ class User extends Model {
       through: 'user_roles',
       as: 'roles',
     });
-    this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'owner' });
+    this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'kitchen' });
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
 
