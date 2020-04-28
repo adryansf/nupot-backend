@@ -44,26 +44,32 @@ routes.post(
   AvatarController.store
 );
 
-// In development
-const todo = (req, res) => res.sendStatus(501); // Not implemented
-
-routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
-
 // Kitchens
-routes.get('/kitchens', KitchenController.index); // Listar as cozinhas por ordem de proximidade
+routes.get('/kitchens', KitchenController.index);
 routes.post(
   '/kitchens',
   allow('user'),
   validationKitchenStore,
   KitchenController.store
 );
-routes.put('/kitchens', validationKitchenUpdate, KitchenController.update); // Atualizar uma cozinha (nome, endereço etc.)- apenas usuários autenticados
+routes.put(
+  '/kitchens',
+  validationKitchenUpdate,
+  allow('kitchen'),
+  KitchenController.update
+);
 
 // Dishes
-routes.get('/dishes', validationMenuIndex, DishController.index); // Se o usuário estiver autenticado e possuir um perfil nutricional, listar apenas os pratos recomendados. Caso não, listar todos os pratos. Caso haja query params, retornar com filtros: /dishes?kitchen=1 deve retornar somente os pratos da cozinha com id 1 enquanto /dishes deve retornar todos os pratos
+routes.get('/dishes', validationMenuIndex, DishController.index);
 routes.get('/dishes/:dishId', DishController.show);
 routes.post('/dishes', allow('kitchen'), DishController.store);
-routes.put('/dishes/:dishId', allow('kitchen'), todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha (role cooker)
-routes.delete('/dishes/:dishId', allow('kitchen'), todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha (role cooker)
+
+// In development
+const todo = (req, res) => res.sendStatus(501); // Not implemented
+
+routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
+
+routes.put('/dishes/:dishId', allow('kitchen'), todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha
+routes.delete('/dishes/:dishId', allow('kitchen'), todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha
 
 export default routes;
