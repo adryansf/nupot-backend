@@ -22,8 +22,21 @@ class DishController {
   }
 
   async index(req, res) {
-    const dishes = await Dish.findAll();
+    const { query } = req;
+    const filters = {};
+    const attrs = { kitchen: 'kitchen_id' }; // filter map: query params -> table column
+    Object.keys(attrs).map(key => {
+      if (query[key]) filters[attrs[key]] = query[key];
+    });
+    const dishes = await Dish.findAll({ where: filters });
     return res.json(dishes);
+  }
+
+  async show(req, res) {
+    const { dishId } = req.params;
+    const dish = await Dish.findByPk(dishId);
+    if (!dish) return res.sendStatus(404);
+    return res.json(dish);
   }
 }
 
