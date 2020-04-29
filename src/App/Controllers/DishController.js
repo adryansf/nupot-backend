@@ -4,7 +4,7 @@ import Kitchen from '../Models/Kitchen';
 
 class DishController {
   async store(req, res) {
-    const { name, price, money = 'REAL', description = null } = req.body;
+    const { name, price, money = 'BRL', description = null } = req.body;
     try {
       const { aud: userId } = req.auth;
       const user = await User.findOne({

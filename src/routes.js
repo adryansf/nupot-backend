@@ -13,6 +13,7 @@ import validationUserUpdate from './App/Validators/UserUpdate';
 import validationKitchenStore from './App/Validators/KitchenStore';
 import validationKitchenUpdate from './App/Validators/KitchenUpdate';
 import validationMenuIndex from './App/Validators/MenuIndex';
+import validationUserNutriotionalProfiles from './App/Validators/UserNutritionalProfilesStore';
 
 // Controllers
 import SessionController from './App/Controllers/SessionController';
@@ -20,6 +21,7 @@ import UserController from './App/Controllers/UserController';
 import KitchenController from './App/Controllers/KitchenController';
 import DishController from './App/Controllers/DishController';
 import AvatarController from './App/Controllers/AvatarController';
+import UserNutritionalProfiles from './App/Controllers/UserNutritionalProfilesController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -64,10 +66,18 @@ routes.get('/dishes', validationMenuIndex, DishController.index);
 routes.get('/dishes/:dishId', DishController.show);
 routes.post('/dishes', allow('kitchen'), DishController.store);
 
+// User Nutritional Profile
+routes.post(
+  '/users/nutritional_profiles',
+  allow('user'),
+  validationUserNutriotionalProfiles,
+  UserNutritionalProfiles.store
+);
+
 // In development
 const todo = (req, res) => res.sendStatus(501); // Not implemented
 
-routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
+// Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
 
 routes.put('/dishes/:dishId', allow('kitchen'), todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha
 routes.delete('/dishes/:dishId', allow('kitchen'), todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha

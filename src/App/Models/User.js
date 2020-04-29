@@ -32,6 +32,11 @@ class User extends Model {
       through: 'user_roles',
       as: 'roles',
     });
+    this.belongsToMany(models.NutritionalProfile, {
+      hooks: true,
+      through: 'user_nutritional_profiles',
+      as: 'nutritional_profiles',
+    });
     this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'kitchen' });
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }
