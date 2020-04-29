@@ -63,13 +63,12 @@ routes.put(
 routes.get('/dishes', validationMenuIndex, DishController.index);
 routes.get('/dishes/:dishId', DishController.show);
 routes.post('/dishes', allow('kitchen'), DishController.store);
+routes.put('/dishes/:dishId', allow('kitchen'), DishController.update);
+routes.delete('/dishes/:dishId', allow('kitchen'), DishController.destroy);
 
 // In development
 const todo = (req, res) => res.sendStatus(501); // Not implemented
 
 routes.post('/set_nutri_profile', todo); // Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
-
-routes.put('/dishes/:dishId', allow('kitchen'), todo); // Atualizar um prato - Apenas usuários autenticados donos de uma cozinha
-routes.delete('/dishes/:dishId', allow('kitchen'), todo); // Remover prato do seu menu (mas não da lista de pratos) - Apenas usuários autenticados donos de uma cozinha
 
 export default routes;
