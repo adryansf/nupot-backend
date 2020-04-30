@@ -1,29 +1,14 @@
 import User from '../Models/User';
-import File from '../Models/File';
-import Role from '../Models/Role';
-import UserRole from '../Models/UserRole';
 
 class SessionController {
   async store(req, res) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
-      where: { email },
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
-        },
-        {
-          model: Role,
-          as: 'roles',
-        },
-      ],
-      attributes: {
-        exclude: ['avatar_id'],
-      },
-    });
+    const user = await User.scope('defaultScope', 'nutritionalProfile').findOne(
+      {
+        where: { email },
+      }
+    );
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

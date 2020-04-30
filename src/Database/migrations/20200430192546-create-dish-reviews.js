@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('user_nutritional_profiles', {
+    return queryInterface.createTable('dish_reviews', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -16,12 +16,27 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      nutritional_profile_id: {
+      dish_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'nutritional_profiles', key: 'id' },
+        references: { model: 'dishes', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false,
+      },
+      stars: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      comment: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      photo_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'files', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
-        allowNull: false,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -35,6 +50,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('user_nutritional_profiles');
+    return queryInterface.dropTable('dish_reviews');
   },
 };

@@ -31,6 +31,13 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      photo_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'files', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+        allowNull: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

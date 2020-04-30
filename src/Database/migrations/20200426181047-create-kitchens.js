@@ -25,8 +25,14 @@ module.exports = {
         allowNull: false,
       },
       legal_id: {
+        unique: true,
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      active: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       created_at: {
         type: Sequelize.DATE,

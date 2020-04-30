@@ -1,3 +1,8 @@
+// Models
+import File from '../Models/File';
+import Role from '../Models/Role';
+import NutritionalProfile from '../Models/NutritionalProfile';
+
 import Sequelize, { Model } from 'sequelize';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
@@ -15,6 +20,32 @@ class User extends Model {
       },
       {
         sequelize,
+        defaultScope: {
+          attributes: {
+            exclude: ['avatar_id'],
+          },
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+            {
+              model: Role,
+              as: 'roles',
+            },
+          ],
+        },
+        scopes: {
+          nutritionalProfile: {
+            include: [
+              {
+                model: NutritionalProfile,
+                as: 'nutritional_profiles',
+              },
+            ],
+          },
+        },
       }
     );
 
@@ -46,7 +77,11 @@ class User extends Model {
   }
 
   generateToken() {
-    const payload = { aud: this.id, roles: this.roles.map(role => role.name) };
+    const payload = {
+      aud: this.id,
+      roles: this.roles.map(role => role.name),
+      nutritional_profiles: this.nutritional_profiles.map(np => np.name),
+    };
     return jwt.sign(payload, APP_SECRET, { expiresIn: JWT_LIFESPAN });
   }
 }

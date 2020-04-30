@@ -12,6 +12,14 @@ class KitchenStoreService {
       throw { status: 401, error: 'You cannot create more of one kitchen' };
     }
 
+    const legalIdExists = await Kitchen.findOne({
+      where: { legal_id: data.legal_id },
+    });
+
+    if (legalIdExists) {
+      throw { status: 401, error: 'Legal ID already in use' };
+    }
+
     const kitchen = await Kitchen.create({
       ...data,
       user_id: userId,

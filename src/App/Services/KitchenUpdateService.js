@@ -12,26 +12,11 @@ class KitchenUpdateService {
       throw { status: 400, error: 'You do not have a kitchen' };
     }
 
-    await kitchen.update(data);
+    await kitchen.update({ ...data, active: true });
 
     const newKitchen = await Kitchen.findOne({
       where: { user_id: userId },
       attributes: { exclude: ['user_id'] },
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: {
-            exclude: ['avatar_id', 'password'],
-          },
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-            },
-          ],
-        },
-      ],
     });
 
     return newKitchen;

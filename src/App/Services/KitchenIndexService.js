@@ -1,31 +1,40 @@
 import Kitchen from '../Models/Kitchen';
-import User from '../Models/User';
-import File from '../Models/File';
 
 class KitchenIndexService {
-  async run({ latitude, longitude, userId }) {
-    const kitchens = await Kitchen.scope({
-      method: ['nearBy', latitude, longitude, userId],
-    }).findAll({
-      attributes: { exclude: ['user_id'] },
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: {
-            exclude: ['avatar_id', 'password'],
-          },
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-            },
-          ],
-        },
-      ],
+  async run({
+    page,
+    kitchensForPage,
+    latitude,
+    longitude,
+    userId,
+    nutritional_profile,
+  }) {
+    page = Number(page);
+
+    const filterNP = nutritional_profile
+      ? { method: ['nutritionalProfile', nutritional_profile] }
+      : {};
+
+    const { count, rows: kitchens } = await Kitchen.scope(
+      'defaultScope',
+      {
+        method: ['nearBy', latitude, longitude, userId],
+      },
+      filterNP
+    ).findAndCountAll({
+      offset: (page - 1) * 10,
+      limit: kitchensForPage,
+      attributes: {
+        exclude: ['user_id'],
+      },
+      distinct: true,
+      col: 'Kitchen.id',
     });
 
-    return kitchens;
+    const kitchensInPage = kitchens.length;
+    const totalPages = Math.ceil(count / kitchensForPage);
+
+    return { total: count, kitchensInPage, page, totalPages, kitchens };
   }
 }
 

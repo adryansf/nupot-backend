@@ -1,5 +1,4 @@
 import User from '../Models/User';
-import File from '../Models/File';
 
 class UserUpdateService {
   async run({ userId, data }) {
@@ -26,13 +25,6 @@ class UserUpdateService {
     await user.update(data);
 
     const newUser = await User.findByPk(userId, {
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
-        },
-      ],
       attributes: { exclude: ['password', 'avatar_id'] },
     });
 
