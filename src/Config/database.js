@@ -11,7 +11,7 @@ const {
 const config = {
   development: {
     dialect: 'sqlite',
-    storage: resolve(__dirname, '..', 'Database', 'devPublicDB.sqlite'),
+    storage: resolve(__dirname, '..', 'Database', 'db.sqlite'),
   },
   production: {
     dialect: 'postgres',
