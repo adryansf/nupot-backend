@@ -18,6 +18,7 @@ class Dish extends Model {
 
   static associate(models) {
     this.belongsTo(models.Kitchen, { foreignKey: 'kitchen_id', as: 'dish' });
+    this.belongsTo(models.Order, { foreignKey: 'order_id', as: 'order' });
   }
 }
 

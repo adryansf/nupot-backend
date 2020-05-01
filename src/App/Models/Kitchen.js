@@ -38,6 +38,7 @@ class Kitchen extends Model {
   static associate(models) {
     this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
     this.hasMany(models.Dish, { foreignKey: 'kitchen_id', as: 'dishes' });
+    this.hasMany(models.Order, { foreignKey: 'kitchen_id', as: 'orders' });
   }
 }
 

@@ -39,6 +39,7 @@ class User extends Model {
     });
     this.hasOne(models.Kitchen, { foreignKey: 'user_id', as: 'kitchen' });
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
+    this.hasMany(models.Order, { foreignKey: 'user_id', as: 'order' });
   }
 
   checkPassword(password) {
