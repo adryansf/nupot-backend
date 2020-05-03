@@ -79,6 +79,9 @@ routes.post(
 // In development
 const todo = (req, res) => res.sendStatus(501); // Not implemented
 
-// Gerar um perfil nutricional do usuário e salvar no db. Apenas usuários autenticados
+routes.get('/orders/user', allow(), todo); // listar o histórico de pedidos de um usuário
+routes.get('/orders/kitchen', allow('kitchen'), todo); // listar o histórico de pedidos de um restaurante
+routes.get('/orders/:orderId', allow('kitchen'), todo); // Exibir os detalhes de um pedido
+routes.post('/orders', allow(), todo); // usuário pode fazer um novo pedido
 
 export default routes;
