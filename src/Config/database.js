@@ -1,12 +1,6 @@
 const { resolve } = require('path');
 
-const {
-  NODE_ENV = 'development',
-  DB_HOST,
-  DB_USER,
-  DB_PASSWORD = null,
-  DB_NAME,
-} = process.env;
+const { NODE_ENV = 'development', DATABASE_URL = null } = process.env;
 
 const config = {
   development: {
@@ -15,10 +9,7 @@ const config = {
   },
   production: {
     dialect: 'postgres',
-    username: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    host: DB_HOST,
+    url: DATABASE_URL,
   },
 };
 
